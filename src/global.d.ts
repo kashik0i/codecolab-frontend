@@ -1,5 +1,5 @@
 /// <reference types="@sveltejs/kit" />
-import type {TreeNode} from "carbon-components-svelte/types/TreeView/TreeView.svelte";
+import type { TreeNode } from "carbon-components-svelte/types/TreeView/TreeView.svelte";
 
 export type AppTheme = "white" | "g10" | "g80" | "g90" | "g100";
 export type EditorTheme = "vs" | "vs-dark" | "hc-black";
@@ -8,8 +8,8 @@ type AppSettings = {
   deleteCellWarning: boolean;
 };
 
-export interface EditorSettings{
-  previewStyle:"left"|"right"|"down"
+export interface EditorSettings {
+  previewStyle: "left" | "right" | "down";
 }
 export interface ReleaseNode {
   id: string;
@@ -38,7 +38,11 @@ export interface ChangelogNode {
     githubIssue: { id: `#${string}`; url: string }[];
   }[];
 }
-
+declare global {
+  interface Navigator {
+    msSaveBlob?: (blob: any, defaultName?: string) => boolean;
+  }
+}
 export interface ChangelogTree {
   nodes: ChangelogNode[];
 }
@@ -48,10 +52,12 @@ export interface EditorModel {
   order: number;
   id: string;
   preview: boolean;
-  render:boolean;
-  renderEngine?
+  render: boolean;
+  renderEngine?;
+  status: "idle" | "pending" | "fail" | "success";
 }
-export const supportedLanguagesList = [
+
+export enum supportedLanguagesEnum {
   "javascript",
   "typescript",
   "markdown",
@@ -59,4 +65,4 @@ export const supportedLanguagesList = [
   "css",
   "json",
   "sql",
-];
+}

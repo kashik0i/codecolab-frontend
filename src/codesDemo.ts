@@ -12,6 +12,7 @@ export const typescriptDemo1: EditorModel = {
   id: "",
   preview: true,
   render: true,
+  status: "idle",
 };
 export const jsonSettingsDemo1: EditorModel = {
   code: `{
@@ -87,6 +88,7 @@ export const jsonSettingsDemo1: EditorModel = {
   id: "",
   preview: false,
   render: false,
+  status: "idle",
 };
 export const svelteDemo1: EditorModel = {
   code: [
@@ -119,6 +121,7 @@ export const svelteDemo1: EditorModel = {
   id: "",
   preview: true,
   render: true,
+  status: "idle",
 };
 export const javascriptDemo1: EditorModel = {
   code: [
@@ -139,6 +142,7 @@ export const javascriptDemo1: EditorModel = {
   id: "",
   preview: true,
   render: true,
+  status: "idle",
 };
 export const htmlDemo1: EditorModel = {
   code: `<html lang="">
@@ -148,4 +152,26 @@ export const htmlDemo1: EditorModel = {
   id: "",
   preview: true,
   render: true,
+  status: "idle",
+};
+export const sqlDemo1: EditorModel = {
+  code: [
+    "CREATE TABLE cities (city string, pop number)",
+    "INSERT INTO cities VALUES ('Paris',2249975),('Berlin',3517424),('Madrid',3041579)",
+  ].join("\n"),
+  language: "sql",
+  order: 0,
+  id: "",
+  preview: true,
+  render: true,
+  status: "idle",
+};
+export const sqlDemo2: EditorModel = {
+  code: "SELECT * FROM cities WHERE pop < 3500000 ORDER BY pop DESC",
+  language: "sql",
+  order: 0,
+  id: "",
+  preview: true,
+  render: true,
+  status: "idle",
 };

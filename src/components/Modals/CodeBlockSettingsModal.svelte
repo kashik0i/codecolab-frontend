@@ -1,11 +1,13 @@
 <script lang="ts">
   import { Button, Modal, Select, SelectItem } from "carbon-components-svelte";
   import { Settings } from "carbon-icons-svelte";
+  import { createEventDispatcher } from "svelte";
+  // import { supportedLanguagesEnum } from "../../global";
 
-  import { editorTheme, appTheme, supportedLanguages } from "../../globStore";
+  import { supportedLanguages } from "../../globStore";
   export let open = false;
   let language;
-  export let changeLanguageEvent;
+  let changeLanguageDispatch = createEventDispatcher();
 </script>
 
 <!-- <Button on:click={() => (open = true)} /> -->
@@ -26,7 +28,7 @@
   <Select
     labelText="language"
     bind:selected={language}
-    on:change={changeLanguageEvent}
+    on:change={() => changeLanguageDispatch("changeLanguage")}
   >
     {#each $supportedLanguages as lang}
       <SelectItem value={lang} />

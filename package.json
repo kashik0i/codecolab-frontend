@@ -9,6 +9,11 @@
     "preview": "vite preview",
     "check": "svelte-check --tsconfig ./tsconfig.json"
   },
+  "browser": {
+    "fs": false,
+    "path": false,
+    "os": false
+  },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^1.0.1",
     "@tsconfig/svelte": "^3.0.0",
@@ -25,9 +30,14 @@
   },
   "dependencies": {
     "@types/uuid": "^8.3.4",
+    "alasql": "^1.7.3",
+    "devicon": "^2.15.1",
     "monaco-editor": "^0.33.0",
+    "monaco-sql-languages": "^0.9.4",
+    "papaparse": "^5.3.2",
+    "svelte-grid": "5.0.1",
+    "svelte-sheets": "^1.0.0",
     "uuid": "^8.3.2",
-    "websandbox": "^0.5.3",
-    "websql": "^2.0.3"
+    "websandbox": "^0.5.3"
   }
 }

@@ -1,8 +1,9 @@
 <script lang="ts">
   import { Checkbox, Modal } from "carbon-components-svelte";
+  import { createEventDispatcher } from "svelte";
   import { appSettings } from "../../globStore";
+  let deleteDispatch = createEventDispatcher();
   export let open = false;
-  export let deleteCell: (e: CustomEvent<string | number>) => void;
 </script>
 
 <Modal
@@ -14,7 +15,11 @@
   on:click:button--secondary={() => (open = false)}
   on:open
   on:close
-  on:submit={() => (open = false)}
+  on:submit={(e) => {
+    console.log(e);
+    open = false;
+    deleteDispatch("delete");
+  }}
 >
   <Checkbox
     labelText="Always warn"

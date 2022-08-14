@@ -1,11 +1,12 @@
 <script lang="ts">
   import { Button } from "carbon-components-svelte";
+  export let createCodeCell, createMiscCell;
   export let id: string;
 </script>
 
 <div {id} class="splitter item-fade " on:mouseenter={() => {}}>
-  <Button>Code Cell</Button>
-  <Button>misc Cell</Button>
+  <Button on:click={createCodeCell(id)}>Code Cell</Button>
+  <Button on:click={createMiscCell(id)}>misc Cell</Button>
 </div>
 
 <!-- .container{
