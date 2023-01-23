@@ -8,88 +8,65 @@
   import { accordion } from "../lib/accordion";
   import { createEventDispatcher, onMount } from "svelte";
   import { fade, scale } from "svelte/transition";
+  import PreviewManager from "./../lib/PreviewManager";
+  import { PreviewTypes, type ObjectWithKeysOfEnumAsKeys } from "../global.d";
 
   let loading = true;
   let selectedIndex;
-  function para(doc: Document, text) {
-    var m = doc.createElement("p");
 
-    m.setAttribute(
-      "style",
-      "border:1px solid black;height:100px;width:500px;position:relative;background-color:white;"
-    );
-
-    m.setAttribute("designMode", "on");
-    m.setAttribute("contenteditable", "true");
-    var t = doc.createElement("div"); //"div" instead of "q"
-    t.innerHTML = text;
-
-    m.appendChild(t);
-    console.log(errorRef.document.querySelector("body"));
-    doc.body.appendChild(m);
-  }
-  export const write = (
-    type: "output" | "ast" | "statistics" | "error" | "console",
+  let previewManager: PreviewManager;
+  export function write(
+    context: keyof ObjectWithKeysOfEnumAsKeys,
     data,
     append: boolean,
-    switchContext = false
-  ) => {
-    switch (type) {
-      case "output":
-        var doc = outputRef.contentDocument;
-        break;
-      case "ast":
-        var doc = astRef.contentDocument;
-        break;
-      case "statistics":
-        var doc = statisticsRef.contentDocument;
-        break;
-      case "error":
-        var doc = errorRef.contentDocument;
-        break;
-      case "console":
-        var doc = consoleRef.contentDocument;
-        break;
-      default:
-        break;
+    isSwitch = false
+  ) {
+    if (isSwitch) {
+      switchContext(context);
     }
-    doc.open();
 
+    console.log(
+      `write to ${context} : '${data}'' ${
+        append ? "with" : "without"
+      } append and ${switchContext ? "with" : "without"} context switch`
+    );
+    // return;
     if (append) {
-      para(doc, data);
+      previewManager.write(context, data);
       //   doc.writeln(data);
     } else {
-      para(doc, data);
+      previewManager.write(context, data);
       //   doc.write(data);
     }
-    doc.close();
-    if (switchContext) {
-      contextSwitch(contexts[type]);
-    }
-  };
-  let contexts = {
-    output: 0,
-    ast: 1,
-    statistics: 2,
-    error: 3,
-    console: 4,
-  };
-  export const read = (
-    type: "output" | "ast" | "statistics" | "error" | "console"
-  ) => {};
-  export const contextSwitch = (id) => {
-    selectedIndex = id;
-  };
-  let consoleRef: HTMLIFrameElement,
-    statisticsRef: HTMLIFrameElement,
-    astRef: HTMLIFrameElement,
-    errorRef: HTMLIFrameElement,
-    outputRef: HTMLIFrameElement;
+  }
+
+  export function switchContext(
+    context: keyof ObjectWithKeysOfEnumAsKeys
+  ): void {
+    console.log("curretn context", previewManager.context);
+    // const previewName = PreviewTypes[context];
+    console.log("view", previewManager.getView(context));
+
+    selectedIndex = PreviewTypes[context];
+    const frame = document.querySelector(".iframe");
+    // frame.innerHTML = "";
+    console.log("context:", previewManager.context);
+    // frame.removeChild(previewManager.getCurrentView().element);
+    frame.appendChild(previewManager.getCurrentView().element);
+    previewManager.context = context;
+    console.log("FFFFFFF", frame);
+  }
+
+  export const read = (type: PreviewTypes) => {};
   export let isOpen = true;
   export let isConsoleOpen = false;
   export let id = "";
-
+  let consoleRef;
   onMount(() => {
+    previewManager = new PreviewManager(document);
+
+    console.log("Hello");
+
     loading = false;
   });
   const animate = (node, args) =>
@@ -102,39 +79,40 @@
     <SkeletonPlaceholder style="height: 12rem; width: 100%;" />
   {:else}
     <ContentSwitcher bind:selectedIndex>
-      <Switch text="Output" />
-      <Switch text="Statistics" />
-      <Switch text="AST" />
-      <Switch text="Error" />
+      <Switch text="Output" on:click={() => switchContext("output")} />
+      <Switch text="Statistics" on:click={() => switchContext("statistics")} />
+      <Switch text="AST" on:click={() => switchContext("ast")} />
+      <Switch text="Error" on:click={() => switchContext("error")} />
     </ContentSwitcher>
-
-    <iframe
+    <div class="iframe" />
+    <!-- <iframe
       class={`output__iframe__${id}`}
-      bind:this={outputRef}
+      bind:this={}
       title="output_iframe"
-      class:active={selectedIndex == contexts.output}
+      class:active={previewManager.context == "output"}
     />
     <iframe
       bind:this={statisticsRef}
       title="statisics_iframe"
-      class:active={selectedIndex == contexts.statistics}
+      class:active={previewManager.context == "statistics"}
     />
     <iframe
       bind:this={astRef}
       title="ast_iframe"
-      class:active={selectedIndex == contexts.ast}
+      class:active={previewManager.context == "ast"}
     />
     <iframe
       bind:this={errorRef}
       title="error_iframe"
-      class:active={selectedIndex == contexts.error}
-    />
+      class:active={previewManager.context == "error"}
+    /> -->
     <div
       class="console-header"
       class:active={isConsoleOpen}
       on:click={() => {
         console.log(isConsoleOpen);
         isConsoleOpen = !isConsoleOpen;
+        // previewManager.context == "console";
       }}
     >
       console
