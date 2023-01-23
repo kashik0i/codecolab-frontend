@@ -1,6 +1,17 @@
 /// <reference types="@sveltejs/kit" />
 import type { TreeNode } from "carbon-components-svelte/types/TreeView/TreeView.svelte";
-
+export enum PreviewTypes {
+  output = 0,
+  ast = 1,
+  statistics = 2,
+  error = 3,
+  console = 4,
+}
+type enumValues = keyof typeof PreviewTypes;
+type ObjectWithKeysOfEnumAsKeys = { [key in enumValues]: string };
+interface PreviewTypesEnum {
+  [id: PreviewTypes]: string;
+}
 export type AppTheme = "white" | "g10" | "g80" | "g90" | "g100";
 export type EditorTheme = "vs" | "vs-dark" | "hc-black";
 type AppSettings = {

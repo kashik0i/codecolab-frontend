@@ -14,12 +14,20 @@
   import * as monaco from "monaco-editor";
   import { onMount, createEventDispatcher } from "svelte";
   import { writable } from "svelte/store";
+  import type { enumValues } from "../../global.d";
 
   import type { EditorModel } from "src/global";
   import Preview from "../Preview.svelte";
   import { wait } from "../../lib/wait";
   import alasql from "alasql";
-  let previewWrite, contextSwitch, previewRead;
+  let previewWrite: (
+      context: enumValues,
+      data: any,
+      append: boolean,
+      isSwitch?: boolean
+    ) => void,
+    switchContext,
+    previewRead;
   let executeCell: (e: CustomEvent) => void;
   let isPreviewOpen = false;
   let moveDispatch = createEventDispatcher();
@@ -90,7 +98,7 @@
 
       model.status = "pending";
       isPreviewOpen = true;
-      await wait(300);
+      await wait(1000);
       switch (model.language) {
         case "sql":
           try {
@@ -104,13 +112,14 @@
 
             previewWrite("error", error.message, false, true);
             // console.log(previewWrite);
-
             model.status = "fail";
           }
 
           break;
         default:
-          alert("unkown language");
+          model.status = "fail";
+          previewWrite("error", "unsupported language", false, true);
+        // alert("unkown language");
       }
       // $codeTree[model.order].status = "success";
       // await wait(300);
@@ -195,7 +204,7 @@
     bind:id={model.id}
     bind:write={previewWrite}
     bind:read={previewRead}
-    bind:contextSwitch
+    bind:switchContext
     bind:isOpen={isPreviewOpen}
   />
 {/if}
