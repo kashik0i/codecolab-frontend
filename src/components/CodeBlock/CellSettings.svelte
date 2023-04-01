@@ -3,11 +3,11 @@
   import { Settings } from "carbon-icons-svelte";
   import CodeBlockSettingsModal from "../Modals/CodeBlockSettingsModal.svelte";
   let open;
-
+  export let language;
   // your script goes here
 </script>
 
-<CodeBlockSettingsModal bind:open on:changeLanguage />
+<CodeBlockSettingsModal bind:open on:changeLanguage bind:language/>
 <Button
   iconDescription="Block Settings"
   icon={Settings}

@@ -6,7 +6,7 @@
 
   import { supportedLanguages } from "../../globStore";
   export let open = false;
-  let language;
+  export let language;
   let changeLanguageDispatch = createEventDispatcher();
 </script>
 
@@ -28,7 +28,7 @@
   <Select
     labelText="language"
     bind:selected={language}
-    on:change={() => changeLanguageDispatch("changeLanguage")}
+    on:change={(e) =>{changeLanguageDispatch("changeLanguage",e.detail)}}
   >
     {#each $supportedLanguages as lang}
       <SelectItem value={lang} />

@@ -12,6 +12,7 @@
   import { Button, Loading, Modal } from "carbon-components-svelte";
   import { ArrowUp, ArrowDown, Settings } from "carbon-icons-svelte";
   import * as monaco from "monaco-editor";
+  // import { AutoTypings, LocalStorageCache } from 'monaco-editor-auto-typings';
   import { onMount, createEventDispatcher } from "svelte";
   import { writable } from "svelte/store";
   import type { enumValues } from "../../global.d";
@@ -70,6 +71,50 @@
       // "semanticHighlighting.enabled"
       //   readOnly: true,
     });
+    // Initialize auto typing on monaco editor. Imports will now automatically be typed!
+    // const autoTypings = await AutoTypings.create(editor, {
+    //   sourceCache: new LocalStorageCache(), // Cache loaded sources in localStorage. May be omitted
+    //   // Log progress updates to a div console
+    //   onUpdate: (u, t) => {
+    //     const consoleElement= document.getElementsByClassName(`console-${model.id}`);
+    //     if(!consoleElement.length){
+    //       console.log(u,t)
+    //       return
+    //     }
+    //     const mountPoint =consoleElement[0];
+    //     const log = document.createElement('div');
+    //     log.innerHTML = t;
+    //     mountPoint.appendChild(log);
+    //     mountPoint.scrollTop = mountPoint.scrollHeight;
+    //   },
+    //
+    //   // Log errors to a div console
+    //   onError: e => {
+    //     const consoleElement= document.getElementsByClassName(`console-${model.id}`);
+    //     if(!consoleElement.length){
+    //       console.log("123",e)
+    //       return
+    //     }
+    //     const mountPoint =consoleElement[0];
+    //     const log = document.createElement('div');
+    //     log.classList.add('err');
+    //     log.innerHTML = e;
+    //     mountPoint.appendChild(log);
+    //     mountPoint.scrollTop = mountPoint.scrollHeight;
+    //   },
+    //
+    //   // Print loaded versions to DOM
+    //   onUpdateVersions: versions => {
+    //     const consoleElement= document.getElementsByClassName(`console-${model.id}`);
+    //     if(!consoleElement.length){
+    //       return
+    //     }
+    //     const mountPoint =consoleElement[0];
+    //     mountPoint!.innerHTML = Object.entries(versions)
+    //             .map(v => `<div>${v[0]}: ${v[1]}</div>`)
+    //             .join('');
+    //   },
+    // });
     editor.onDidChangeModelContent((e) => {
       model.code = editor.getModel().getValue();
     });
@@ -104,7 +149,7 @@
           try {
             const res = alasql(model.code);
             console.log(res);
-            generate(res);
+            await generate(res);
             model.status = "success";
           } catch (error) {
             console.error(error);
@@ -115,6 +160,20 @@
             model.status = "fail";
           }
 
+          break;
+        case "javascript":
+          try {
+            const result = eval(model.code)
+            previewWrite("output", result, false, true);
+            model.status = "success";
+          } catch (error) {
+            console.error(error);
+            console.log(error.message);
+
+            previewWrite("error", error.message, false, true);
+            // console.log(previewWrite);
+            model.status = "fail";
+          }
           break;
         default:
           model.status = "fail";
@@ -152,7 +211,8 @@
   // />
   const onResize = () => {
     // console.log("Window resize");
-    editor.layout({} as monaco.editor.IDimension);
+    editor.layout();
+    // editor.layout({} as monaco.editor.IDimension);
   };
   const changeTheme = (theme) => {
     monaco.editor.setTheme(theme);
@@ -174,7 +234,7 @@
         <PreviewCell bind:disabled={model.preview} bind:open={isPreviewOpen} />
       </div>
       <div class="tools__upper-right">
-        <CellSettings />
+        <CellSettings on:changeLanguage={changeLanguageEvent} bind:language={model.language}/>
         <Button
           iconDescription="Move Up"
           icon={ArrowUp}
@@ -195,8 +255,6 @@
     class:fail={model.status === "fail"}
     class:success={model.status === "success"}
     bind:this={container}
-    style="width: 100%;height:250px;"
-    on:resize={(e) => console.log(e)}
   />
 </div>
 {#if model.render && isPreviewOpen}
@@ -211,15 +269,15 @@
 
 <style>
   .editor-block {
-    display: contents;
-    resize: both;
+    /*display: contents;*/
+    /*resize: both;*/
   }
 
   .monaco-container {
     width: 100%;
     height: 250px;
-    text-align: left;
-    min-width: fit-content;
+    /*text-align: left;*/
+    /*min-width: fit-content;*/
   }
 
   .tools__upper {
@@ -241,7 +299,7 @@
     display: flex;
     margin-right: auto;
     align-self: center;
-    position: absolute;
+    position: sticky;
     left: 50%;
   }
   .status {
@@ -249,8 +307,7 @@
     text-align: left;
     border-left-width: 6px;
     border-left-style: solid;
-    padding-left: 10px;
-
+    /*padding-left: 10px;*/
     transition: all 0.2s ease-in;
   }
   .success {

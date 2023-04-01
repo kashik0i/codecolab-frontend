@@ -6,6 +6,7 @@ export enum PreviewTypes {
   statistics = 2,
   error = 3,
   console = 4,
+  xterm = 5,
 }
 type enumValues = keyof typeof PreviewTypes;
 type ObjectWithKeysOfEnumAsKeys = { [key in enumValues]: string };

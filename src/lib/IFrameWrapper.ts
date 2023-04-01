@@ -1,14 +1,14 @@
 export default class IFrameWrapper {
   private _name: string;
-  private _element: HTMLIFrameElement;
-  public constructor(name: string, frame: HTMLIFrameElement) {
-    console.log(`created ${name} view`, frame);
+  private _element: HTMLDivElement;
+  public constructor(name: string, frame: HTMLDivElement,id:string) {
+    // console.log(`created ${name} view`, frame);
     this._element = frame;
-    this._element.classList.add(name);
+    this._element.classList.add(`${name}-${id}`);
     this._name = name;
   }
-  public set element(e: HTMLIFrameElement) {
-    this.element = e;
+  public set element(e: HTMLDivElement) {
+    this._element = e;
   }
   public get element() {
     return this._element;
@@ -16,19 +16,20 @@ export default class IFrameWrapper {
   public get name() {
     return this._name;
   }
-  public write(input) {
+  public write(input,doc:HTMLDocument) {
     console.log(this.element);
-    const doc = this.element.contentDocument;
-    const node = doc.createElement("div");
-    node.innerText = input;
-    doc.body.appendChild(node);
+    // const doc = this.element.contentDocument;
+    // const node = doc.createElement("div");
+    // node.innerText = input;
+    const para=doc.createElement('p');
+    para.innerHTML=input;
+    this.element.appendChild(para);
   }
   public read(): string {
-    return this.element.contentDocument.body.innerHTML;
+    return this.element.innerHTML;
   }
   public para(text) {
-    const doc = this.element.contentDocument;
-    var m = doc.createElement("p");
+    var m = new HTMLParagraphElement();
 
     m.setAttribute(
       "style",
@@ -37,11 +38,11 @@ export default class IFrameWrapper {
 
     m.setAttribute("designMode", "on");
     m.setAttribute("contenteditable", "true");
-    var t = doc.createElement("div"); //"div" instead of "q"
+    const t = new HTMLDivElement();
     t.innerHTML = text;
 
     m.appendChild(t);
     // console.log(errorRef.document.querySelector("body"));
-    doc.body.appendChild(m);
+    this.element.appendChild(m);
   }
 }

@@ -26,5 +26,12 @@
 <div
   class="monaco-container"
   bind:this={container}
-  style="height: 500px; text-align: left"
 />
+
+<style>
+    .monaco-container{
+        height: 500px;
+        text-align: left;
+    }
+
+</style>
