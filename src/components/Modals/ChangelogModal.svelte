@@ -9,7 +9,7 @@
   } from "carbon-components-svelte";
   import { BreakingChange, CategoryAdd } from "carbon-icons-svelte";
   import { onMount } from "svelte";
-  import { changelogTree } from "../../globStore";
+  import { changelogTree } from "../../stores";
   let loading = true;
   export let open = false;
   onMount(() => {

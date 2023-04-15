@@ -8,14 +8,16 @@
         console.log(data, terminal)
         terminal.send(data)
     };
-    onMount(() => {
-        terminal = new xterm(terminalDiv, {text: "Hello terminal user!\n", socket: `ws://localhost:${3000}`})
+    onMount(async () => {
+        terminal = new xterm(terminalDiv)
+        await terminal.init(`ws://localhost:${3000}`)
+        terminal.write("Hello terminal user!\n");
     })
 </script>
-<div class="xterminal"
-     bind:this={terminalDiv}>
-    dasd
-</div>
+<!--<div class="xterminal"-->
+<!--     bind:this={terminalDiv}>-->
+<!--    dasd-->
+<!--</div>-->
 
 
 <style>

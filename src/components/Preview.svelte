@@ -12,7 +12,8 @@
     import PreviewManager from "./../lib/PreviewManager";
     import {PreviewTypes, type ObjectWithKeysOfEnumAsKeys} from "../global.d";
     import Xterm from "./Xterm.svelte";
-    let previewFrame:HTMLDivElement;
+
+    let previewFrame: HTMLDivElement;
     let loading = true;
     let selectedIndex;
     // let parentFrame:HTMLDivElement;
@@ -65,7 +66,7 @@
     onMount(async () => {
         loading = false;
         await tick()
-        previewManager = new PreviewManager(document,id,previewFrame);
+        previewManager = new PreviewManager(document, id, previewFrame);
         switchContext("error")
         // previewManager.switchContext("error")
     });
@@ -74,6 +75,7 @@
         console.log(isXtermOpen);
         isXtermOpen = !isXtermOpen;
     }
+
     let promptInput;
     let handlePrompt;
 
@@ -99,11 +101,12 @@
         <div class="console-header" class:active={isXtermOpen} on:click={openXterm}>
             Terminal
         </div>
-        <div class="xterminal-parent" use:accordion={isXtermOpen} >
+        <div class="xterminal-parent" use:accordion={isXtermOpen}>
             <Xterm bind:this={xtermRef} bind:handlePrompt/>
         </div>
         <div style="display: grid;grid-auto-flow: column;grid-template-columns: 1fr;">
-            <TextInput  on:input={(e)=>promptInput=e.detail} labelText="command prompt" placeholder="Send to server...."/>
+            <TextInput on:input={(e)=>promptInput=e.detail} labelText="command prompt"
+                       placeholder="Send to server...."/>
             <Button on:click={()=>handlePrompt(promptInput)}>send</Button>
         </div>
 
@@ -125,16 +128,19 @@
         display: block;
 
     }
-    .xterminal-parent{
+
+    .xterminal-parent {
         display: block;
     }
+
     /*.ast{*/
     /*    display: block;*/
     /*    width: -webkit-fill-available;*/
-    .iframe{
+    .iframe {
         display: contents;
         height: min-content;
     }
+
     /*}*/
     /*.iframe-body {*/
     /*    width: 100%;*/

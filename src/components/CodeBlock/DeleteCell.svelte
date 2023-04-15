@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { appSettings } from "../../globStore";
+  import { appSettings } from "../../stores";
   import DeleteCellModal from "../Modals/DeleteCellModal.svelte";
   import { Button } from "carbon-components-svelte";
   import { onMount, createEventDispatcher } from "svelte";

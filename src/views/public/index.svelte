@@ -1,11 +1,12 @@
 <script lang="ts">
-    import {session} from '../../sessionStore'
+    import {session} from '../../stores'
+
+
+    console.log($session)
+
 </script>
-<h2>Index</h2>
-<h2>Index</h2>
-<h2>Index</h2>
-<h2>Index</h2>
-<h2>Index</h2>
-<!--<p>user id {$session?.user?.id}</p>-->
-<!--<p>session id {$session?.id}</p>-->
+<div>
+    <p>user id: {$session._user._id}</p>
+    <p>session id: {$session._id}</p>
+</div>
 <!--<p>session id {id}</p>-->

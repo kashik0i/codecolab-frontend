@@ -18,11 +18,11 @@ export default class PreviewManager {
     private _context: enumValues;
     private _parentDiv: HTMLDivElement;
 
-    constructor(doc: Document,id:string,parentDiv:HTMLDivElement) {
+    constructor(doc: Document, id: string, parentDiv: HTMLDivElement) {
         const validKeys = Object.keys(PreviewTypes).filter((val) => isNaN(+val));
         this._views = new Map(
             validKeys.map((name) => {
-                const frame = new IFrameWrapper(name, doc.createElement("div"),id);
+                const frame = new IFrameWrapper(name, doc.createElement("div"), id);
 
                 frame.element.style.width = "100vw";
                 frame.element.style.height = "40vh";
@@ -30,16 +30,17 @@ export default class PreviewManager {
                 return [name, frame];
             })
         );
-        this._parentDiv=parentDiv
+        this._parentDiv = parentDiv
         this.context = "output";
     }
 
     // public setView(context: enumValues, value: HTMLIFrameElement) {
     //     this._views.set(context, new IFrameWrapper(context, value));
     // }
-    public get views(){
+    public get views() {
         return this._views;
     }
+
     public getView(context: enumValues) {
         console.log(this._views.get(context))
         return this._views.get(context);
@@ -57,12 +58,11 @@ export default class PreviewManager {
         context: enumValues
     ): void {
         console.log("switch")
-        if (this.context===context)
+        if (this.context === context)
             return;
         this.context = context;
-        const element=this.getView(context).element
-        if(!element)
-        {
+        const element = this.getView(context).element
+        if (!element) {
             debugger
         }
         console.log(this.parentDiv)
@@ -70,8 +70,11 @@ export default class PreviewManager {
 
     }
 
-    public write(name: enumValues, content,doc) {
-        debugger
+    public write(name: enumValues, content, doc) {
+        // debugger
+        if (typeof content !== "string") {
+            content = JSON.stringify(content)
+        }
         console.log(`PreviewManager:\twrite to ${name} content: ${content}`);
         const view = this.getView(name);
         console.log(view)
@@ -79,6 +82,6 @@ export default class PreviewManager {
             throw new Error("view is not valid");
         }
         // view.para("content");
-        view.write(content,doc);
+        view.write(content, doc);
     }
 }

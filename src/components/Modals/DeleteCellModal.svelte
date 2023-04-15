@@ -1,7 +1,7 @@
 <script lang="ts">
   import { Checkbox, Modal } from "carbon-components-svelte";
   import { createEventDispatcher } from "svelte";
-  import { appSettings } from "../../globStore";
+  import { appSettings } from "../../stores";
   let deleteDispatch = createEventDispatcher();
   export let open = false;
 </script>

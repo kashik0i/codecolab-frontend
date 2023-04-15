@@ -1,6 +1,6 @@
 <script lang="ts">
     import AppSettingsModal from "./Modals/AppSettingsModal.svelte";
-    import {session} from '../sessionStore'
+    import {session} from '../stores'
     import {
         Header,
         HeaderUtilities,

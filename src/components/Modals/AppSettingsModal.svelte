@@ -7,7 +7,7 @@
     SelectItem,
   } from "carbon-components-svelte";
   import { Settings } from "carbon-icons-svelte";
-  import { editorTheme, appTheme, appSettings } from "../../globStore";
+  import { editorTheme, appTheme, appSettings } from "../../stores";
   export let open = false;
 </script>
 

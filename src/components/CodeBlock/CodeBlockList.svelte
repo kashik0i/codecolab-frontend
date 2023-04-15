@@ -3,7 +3,7 @@
     // import gridHelp from "svelte-grid/build/helper/index.mjs";
     import BlockSplitter from "./../BlockSplitter.svelte";
     import {derived} from "svelte/store";
-    import {codeTree, removedCodeTree} from "../../codeTreeStore";
+    import {codeTree, removedCodeTree} from "../../stores";
     import CodeBlock from "./CodeBlock.svelte";
     import type {EditorModel} from "../../global";
     import {wait, generate} from "../../lib";

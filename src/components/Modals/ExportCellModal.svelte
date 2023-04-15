@@ -6,7 +6,7 @@
     SelectItem,
   } from "carbon-components-svelte";
   import { createEventDispatcher } from "svelte";
-  import { appSettings } from "../../globStore";
+  import { appSettings } from "../../stores";
   let exportDispatch = createEventDispatcher();
   export let open = false;
   let exportTypes = ["ipynb", "json", "python", "pyodide"];
