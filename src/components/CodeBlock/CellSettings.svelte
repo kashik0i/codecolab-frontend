@@ -8,7 +8,7 @@
     // your script goes here
 </script>
 
-<CodeBlockSettingsModal bind:open on:changeLanguage bind:language/>
+<CodeBlockSettingsModal bind:open on:changeLanguage on:changeExecution bind:language/>
 <Button
         iconDescription="Block Settings"
         icon={Settings}

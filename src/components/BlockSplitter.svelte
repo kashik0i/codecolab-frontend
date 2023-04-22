@@ -1,12 +1,12 @@
 <script lang="ts">
-  import { Button } from "carbon-components-svelte";
-  export let createCodeCell, createMiscCell;
-  export let id: string;
+    import {Button} from "carbon-components-svelte";
+    export let createCodeCell, createMiscCell;
+    export let id: string;
 </script>
 
 <div {id} class="splitter item-fade " on:mouseenter={() => {}}>
-  <Button on:click={createCodeCell(id)}>Code Cell</Button>
-  <Button on:click={createMiscCell(id)}>misc Cell</Button>
+    <Button on:click={createCodeCell(id)}>Code Cell</Button>
+    <Button on:click={createMiscCell(id)}>misc Cell</Button>
 </div>
 
 <!-- .container{
@@ -33,20 +33,21 @@ img:hover{
     
 } -->
 <style>
-  .splitter {
-    margin: 10px;
-    display: flex;
-    flex-direction: row;
-    align-content: space-around;
-    justify-content: center;
-  }
-  .item-fade {
-    vertical-align: top;
-    transition: opacity 0.3s;
-    opacity: 0;
-  }
+    .splitter {
+        margin: 10px;
+        display: flex;
+        flex-direction: row;
+        align-content: space-around;
+        justify-content: center;
+    }
 
-  .item-fade:hover {
-    opacity: 1;
-  }
+    .item-fade {
+        vertical-align: top;
+        transition: opacity 0.3s;
+        opacity: 0;
+    }
+
+    .item-fade:hover {
+        opacity: 1;
+    }
 </style>

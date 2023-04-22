@@ -1,10 +1,10 @@
-import {type EditorModel, supportedLanguagesEnum} from "./global.d";
+import {type EditorModel, supportedExecutionEnum, supportedLanguagesEnum} from "./global.d";
 
 export const typescriptDemo1: EditorModel = {
     code: [
-        "export const editorContents = import fetch from 'node-fetch\n",
-        "import React from 'react'\n",
-        "import { LocalStorageCache } from 'monaco-editor-auto-typings'\n",
+        "export const editorContents = import fetch from 'node-fetch';\n",
+        "import React from 'react';\n",
+        "import { LocalStorageCache } from 'monaco-editor-auto-typings';\n",
         "// Works fine\n",
         "fetch('https://google.com', { method: 'GET' })\n",
         "React.useEffect(() => {})\n",
@@ -22,6 +22,7 @@ export const typescriptDemo1: EditorModel = {
     preview: true,
     render: true,
     status: "idle",
+    execution:supportedExecutionEnum.server
 };
 export const jsonSettingsDemo1: EditorModel = {
     code: `{
@@ -98,6 +99,7 @@ export const jsonSettingsDemo1: EditorModel = {
     preview: false,
     render: false,
     status: "idle",
+    execution:supportedExecutionEnum.client
 };
 export const svelteDemo1: EditorModel = {
     code: [
@@ -131,6 +133,7 @@ export const svelteDemo1: EditorModel = {
     preview: true,
     render: true,
     status: "idle",
+    execution:supportedExecutionEnum.server
 };
 export const javascriptDemo1: EditorModel = {
     code: [
@@ -152,6 +155,7 @@ export const javascriptDemo1: EditorModel = {
     preview: true,
     render: true,
     status: "idle",
+    execution:supportedExecutionEnum.server
 };
 export const htmlDemo1: EditorModel = {
     code: `<html lang="">
@@ -162,6 +166,7 @@ export const htmlDemo1: EditorModel = {
     preview: true,
     render: true,
     status: "idle",
+    execution:supportedExecutionEnum.client
 };
 export const sqlDemo1: EditorModel = {
     code: [
@@ -223,6 +228,7 @@ export const sqlDemo1: EditorModel = {
     preview: true,
     render: true,
     status: "idle",
+    execution:supportedExecutionEnum.client
 };
 export const sqlDemo2: EditorModel = {
     code: "SELECT * FROM cities WHERE pop < 3500000 ORDER BY pop DESC",
@@ -232,6 +238,7 @@ export const sqlDemo2: EditorModel = {
     preview: true,
     render: true,
     status: "idle",
+    execution:supportedExecutionEnum.client
 };
 export const pythonDemo1: EditorModel = {
     code: [
@@ -246,4 +253,5 @@ export const pythonDemo1: EditorModel = {
     preview: true,
     render: true,
     status: "idle",
+    execution:supportedExecutionEnum.client
 };

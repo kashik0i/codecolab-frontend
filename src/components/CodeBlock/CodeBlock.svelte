@@ -9,16 +9,17 @@
     import "monaco-sql-languages/out/esm/plsql/plsql.contribution";
     import "monaco-sql-languages/out/esm/sql/sql.contribution";
     import {Button, Loading} from "carbon-components-svelte";
-    import {ArrowDown, ArrowUp} from "carbon-icons-svelte";
+    import {App, ArrowDown, ArrowUp, BareMetalServer, type CarbonIcon, Cloud} from "carbon-icons-svelte";
     import * as monaco from "monaco-editor";
     // import { AutoTypings, LocalStorageCache } from 'monaco-editor-auto-typings';
     import {createEventDispatcher, onMount} from "svelte";
-    import type {enumValues} from "../../global.d";
-    import {supportedLanguagesEnum} from "../../global.d";
+    import {type enumValues,supportedExecutionEnum, supportedLanguagesEnum} from "../../global.d";
 
     import type {EditorModel} from "src/global";
     import Preview from "../Preview.svelte";
 
+
+    let executionLogo: CarbonIcon;
     let previewWrite: (
             context: enumValues,
             data: any,
@@ -34,7 +35,7 @@
     let editor: monaco.editor.IStandaloneCodeEditor;
     let container;
     let loaded = false;
-    export let model: EditorModel = {
+    export let model = <EditorModel>{
         code: "",
         language: null,
         order: 0,
@@ -42,6 +43,7 @@
         preview: true,
         render: false,
         status: "idle",
+        execution:supportedExecutionEnum.client
     };
     $: {
         model.order,
@@ -69,6 +71,7 @@
             // "semanticHighlighting.enabled"
             //   readOnly: true,
         });
+        changeExecutionLogo(model.execution)
         // Initialize auto typing on monaco editor. Imports will now automatically be typed!
         // const autoTypings = await AutoTypings.create(editor, {
         //   sourceCache: new LocalStorageCache(), // Cache loaded sources in localStorage. May be omitted
@@ -222,17 +225,40 @@
     const exportCell = (e: CustomEvent) => {
         console.log(e.detail, "cell exported");
     };
+    const changeExecutionLogo=(execution)=> {
+        console.log("kik")
+        switch (execution) {
+            case supportedExecutionEnum.client:
+                executionLogo = App
+                break;
 
+            case supportedExecutionEnum.server:
+                executionLogo = BareMetalServer
+                break;
+
+            case supportedExecutionEnum.serverless:
+                executionLogo = Cloud
+                break;
+        }
+    }
     function changeLanguage(lang: string) {
         let model = editor?.getModel();
         if (!model) return;
         monaco.editor.setModelLanguage(model, lang);
         console.log(`language changed to ${lang}`);
     }
-
+    function changeExecution(exec: supportedExecutionEnum) {
+        model.execution=exec;
+        console.log(`Execution changed to ${exec}`);
+    }
     const changeLanguageEvent = (e) => {
         const lang = e.detail;
         changeLanguage(lang);
+    };
+    const changeExecutionEvent = (e) => {
+        const exec = e.detail;
+        changeExecution(exec);
+        changeExecutionLogo(exec);
     };
     const dispatch = createEventDispatcher();
 
@@ -269,7 +295,8 @@
                 <PreviewCell bind:disabled={model.preview} bind:open={isPreviewOpen}/>
             </div>
             <div class="tools__upper-right">
-                <CellSettings on:changeLanguage={changeLanguageEvent} bind:language={model.language}/>
+
+                <CellSettings on:changeLanguage={changeLanguageEvent} on:changeExecution={changeExecutionEvent} bind:language={model.language}/>
                 <Button
                         iconDescription="Move Up"
                         icon={ArrowUp}
@@ -280,6 +307,11 @@
                         icon={ArrowDown}
                         on:click={() => moveDispatch("move-down", model)}
                 />
+                <Button
+                        iconDescription={model.execution}
+                        icon={executionLogo}
+                        kind="ghost"
+                />
             </div>
         </div>
     </div>
@@ -289,8 +321,8 @@
             class:idle={model.status === "idle"}
             class:fail={model.status === "fail"}
             class:success={model.status === "success"}
-            bind:this={container}
-    />
+            bind:this={container}>
+    </div>
 </div>
 {#if model.render && isPreviewOpen}
     <Preview

@@ -1,11 +1,12 @@
 <script lang="ts">
     // import Grid from "svelte-grid";
     // import gridHelp from "svelte-grid/build/helper/index.mjs";
+    import {BareMetalServer,App,Cloud,type CarbonIcon} from "carbon-icons-svelte";
     import BlockSplitter from "./../BlockSplitter.svelte";
     import {derived} from "svelte/store";
     import {codeTree, removedCodeTree} from "../../stores";
     import CodeBlock from "./CodeBlock.svelte";
-    import type {EditorModel} from "../../global";
+    import  {type EditorModel,supportedExecutionEnum} from "../../global.d";
     import {wait, generate} from "../../lib";
     import alasql from "alasql";
     import {v4 as uuidv4} from "uuid";
@@ -17,17 +18,22 @@
     };
     const createCodeCell = (id) => {
         console.log(id, "create code cell");
-        const newEditorModel: EditorModel = {
+        const newEditorModel = <EditorModel>{
             code: "",
-            id:uuidv4(), language: "javascript", order: Number(id), preview: true, render: true,
-            status: "idle"
+            id: uuidv4(),
+            language: "javascript",
+            order: Number(id),
+            preview: true,
+            render: true,
+            status: "idle",
+            execution: "client",
         }
         // $codeTree.push(newEditorModel)
         $codeTree.splice(id, 0, newEditorModel);
-        $codeTree.map((item,i)=>item.order=i)
-        $codeTree=$codeTree;
+        $codeTree.map((item, i) => item.order = i)
+        $codeTree = $codeTree;
         // codeTree.set([...$codeTree.slice(0, id), newEditorModel, ...$codeTree.slice(id, $codeTree.length)])
-        console.log("new order", $codeTree.map((item)=>[item.id,item.order]))
+        console.log("new order", $codeTree.map((item) => [item.id, item.order]))
     };
     // const runCell = async (e: CustomEvent) => {
     //   console.log(e.detail, "cell ran");
@@ -86,7 +92,7 @@
         // editor.setValue(found.code);
         // editor.setValue(found.code);
         // editor.setValue;
-        console.log("new order", $codeTree.map((item)=>[item.id,item.order]))
+        console.log("new order", $codeTree.map((item) => [item.id, item.order]))
 
     };
     const moveCellUp = (e: CustomEvent) => {
@@ -105,11 +111,12 @@
         $codeTree[idx + 1].order--;
         console.log($codeTree);
         // codeTree.set($codeTree);
-        $codeTree=$codeTree
+        $codeTree = $codeTree
         // return callback();
-        console.log("new order", $codeTree.map((item)=>[item.id,item.order]))
+        console.log("new order", $codeTree.map((item) => [item.id, item.order]))
 
     };
+
     // let sorted: typeof $codeTree = [];
     // $: $codeTree,
     //   (sorted = $codeTree.sort((a, b) => a.order - b.order)),

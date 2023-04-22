@@ -5,9 +5,11 @@
     // import { supportedLanguagesEnum } from "../../global";
 
     import {supportedLanguages} from "../../stores";
+    import {supportedExecution} from "../../stores/globStore.js";
 
     export let open = false;
     export let language;
+    export let execution;
     let changeLanguageDispatch = createEventDispatcher();
 </script>
 
@@ -33,6 +35,15 @@
     >
         {#each $supportedLanguages as lang}
             <SelectItem value={lang}/>
+        {/each}
+    </Select>
+    <Select
+            labelText="execution"
+            bind:selected={execution}
+            on:change={() =>{changeLanguageDispatch("changeExecution",execution)}}
+    >
+        {#each $supportedExecution as exec}
+            <SelectItem value={exec}/>
         {/each}
     </Select>
 </Modal>

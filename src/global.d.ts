@@ -76,6 +76,7 @@ export interface EditorModel {
     id: string;
     preview: boolean;
     render: boolean;
+    execution:supportedExecutionEnum,
     renderEngine?;
     status: "idle" | "pending" | "fail" | "success";
 }
@@ -92,5 +93,9 @@ export enum supportedLanguagesEnum {
     python = "python",
     svelte = "svelte"
 }
-
+export enum supportedExecutionEnum {
+    client = "client",
+    server = "server",
+    serverless = "serverless",
+}
 // type supportedLanguagesValues = keyof typeof supportedLanguagesEnum;

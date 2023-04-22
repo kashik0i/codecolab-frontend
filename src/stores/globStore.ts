@@ -6,7 +6,7 @@ import {
     type AppSettings,
     type ChangelogTree,
     type EditorSettings,
-    supportedLanguagesEnum,
+    supportedLanguagesEnum, supportedExecutionEnum,
 } from "../global.d";
 
 export const appTheme = writable<AppTheme>("white");
@@ -29,3 +29,4 @@ export const changelogTree = writable<ChangelogTree>(changelogTreeDemo);
 //   "sql",
 // ]);
 export const supportedLanguages = writable(Object.values(supportedLanguagesEnum))
+export const supportedExecution = writable(Object.values(supportedExecutionEnum))
