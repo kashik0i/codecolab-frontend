@@ -226,7 +226,6 @@
         console.log(e.detail, "cell exported");
     };
     const changeExecutionLogo=(execution)=> {
-        console.log("kik")
         switch (execution) {
             case supportedExecutionEnum.client:
                 executionLogo = App
