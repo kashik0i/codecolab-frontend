@@ -25,6 +25,9 @@ export default class IFrameWrapper {
     para.innerHTML=input;
     this.element.appendChild(para);
   }
+  public clear(): void {
+    this.element.innerHTML='';
+  }
   public read(): string {
     return this.element.innerHTML;
   }

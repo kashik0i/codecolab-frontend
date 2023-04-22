@@ -84,4 +84,14 @@ export default class PreviewManager {
         // view.para("content");
         view.write(content, doc);
     }
+
+    public clear(name): void {
+        const view = this.getView(name);
+        console.log(view)
+        if (view == undefined) {
+            throw new Error("view is not valid");
+        }
+        // view.para("content");
+        view.clear();
+    }
 }

@@ -39,6 +39,7 @@
             previewManager.write(context, data, document);
             //   doc.writeln(data);
         } else {
+            previewManager.clear(context);
             previewManager.write(context, data, document);
             //   doc.write(data);
         }
@@ -102,7 +103,7 @@
             Terminal
         </div>
         <div class="xterminal-parent" use:accordion={isXtermOpen}>
-            <Xterm bind:this={xtermRef} bind:handlePrompt/>
+<!--            <Xterm bind:this={xtermRef} bind:handlePrompt/>-->
         </div>
         <div style="display: grid;grid-auto-flow: column;grid-template-columns: 1fr;">
             <TextInput on:input={(e)=>promptInput=e.detail} labelText="command prompt"

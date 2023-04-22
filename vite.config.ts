@@ -5,6 +5,7 @@ import monacoEditorPlugin from "vite-plugin-monaco-editor";
 export default defineConfig({
   plugins: [
     svelte(),
+    // @ts-ignore
     monacoEditorPlugin.default({
       // languages: ["javascript", "typescript", "sql", "html"],
       languageWorkers: [

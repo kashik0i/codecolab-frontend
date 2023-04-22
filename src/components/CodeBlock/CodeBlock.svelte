@@ -13,10 +13,11 @@
     import * as monaco from "monaco-editor";
     // import { AutoTypings, LocalStorageCache } from 'monaco-editor-auto-typings';
     import {createEventDispatcher, onMount} from "svelte";
-    import {type enumValues,supportedExecutionEnum, supportedLanguagesEnum} from "../../global.d";
+    import {type enumValues, supportedExecutionEnum, supportedLanguagesEnum} from "../../global.d";
 
     import type {EditorModel} from "src/global";
     import Preview from "../Preview.svelte";
+    import {JavascriptRemote} from "../../languages";
 
 
     let executionLogo: CarbonIcon;
@@ -43,7 +44,7 @@
         preview: true,
         render: false,
         status: "idle",
-        execution:supportedExecutionEnum.client
+        execution: supportedExecutionEnum.client
     };
     $: {
         model.order,
@@ -148,7 +149,7 @@
             switch (model.language) {
                 case supportedLanguagesEnum.sql:
                     try {
-                        const sqlEngine = await $languageServiceEngine.getLanguage(supportedLanguagesEnum.sql);
+                        const sqlEngine = await $languageServiceEngine.getLanguage(supportedLanguagesEnum.sql, model.execution);
                         console.log(sqlEngine)
                         const res = await sqlEngine.execute(model.code, null);
                         console.log(res);
@@ -171,7 +172,7 @@
                         model.status = "fail";
                         previewWrite("error", "unsupported language", false, true);
                         return;
-                        const pythonEngine = await $languageServiceEngine.getLanguage(supportedLanguagesEnum.python);
+                        const pythonEngine = await $languageServiceEngine.getLanguage(supportedLanguagesEnum.python, model.execution);
                         const result = await pythonEngine.execute(model.code, null)
 
                         // const pythonVersion = await pythonEngine.getVersion();
@@ -189,7 +190,11 @@
                     break;
                 case supportedLanguagesEnum.javascript:
                     try {
-                        const result = eval(model.code)
+                        if (model.execution === supportedExecutionEnum.serverless) {
+                            throw new Error('execution type is not supported yet')
+                        }
+                        const javascriptEngine = <JavascriptRemote>await $languageServiceEngine.getLanguage(supportedLanguagesEnum.javascript, model.execution);
+                        const result = await javascriptEngine.execute(model.code, null)
                         previewWrite("output", result, false, true);
                         model.status = "success";
                     } catch (error) {
@@ -225,7 +230,7 @@
     const exportCell = (e: CustomEvent) => {
         console.log(e.detail, "cell exported");
     };
-    const changeExecutionLogo=(execution)=> {
+    const changeExecutionLogo = (execution) => {
         switch (execution) {
             case supportedExecutionEnum.client:
                 executionLogo = App
@@ -240,16 +245,19 @@
                 break;
         }
     }
+
     function changeLanguage(lang: string) {
         let model = editor?.getModel();
         if (!model) return;
         monaco.editor.setModelLanguage(model, lang);
         console.log(`language changed to ${lang}`);
     }
+
     function changeExecution(exec: supportedExecutionEnum) {
-        model.execution=exec;
+        model.execution = exec;
         console.log(`Execution changed to ${exec}`);
     }
+
     const changeLanguageEvent = (e) => {
         const lang = e.detail;
         changeLanguage(lang);
@@ -295,7 +303,8 @@
             </div>
             <div class="tools__upper-right">
 
-                <CellSettings on:changeLanguage={changeLanguageEvent} on:changeExecution={changeExecutionEvent} bind:language={model.language}/>
+                <CellSettings on:changeLanguage={changeLanguageEvent} on:changeExecution={changeExecutionEvent}
+                              bind:language={model.language}/>
                 <Button
                         iconDescription="Move Up"
                         icon={ArrowUp}

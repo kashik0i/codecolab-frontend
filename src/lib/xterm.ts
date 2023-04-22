@@ -7,8 +7,8 @@ import {wait} from "./wait";
 
 export class xterm {
     private protocol = 'ws';
-    private port: number;
-    private node: HTMLElement;
+    private url: string;
+    private readonly node: HTMLElement;
 
     get term(): Terminal {
         return this._term;
@@ -24,7 +24,7 @@ export class xterm {
     constructor(node) {
         this.node = node;
         console.log("node and data", node)
-        this.port = 3000;
+        this.url = import.meta.env.XTERM_SERVER_URL;
         if (window.location.protocol.includes('https')) {
             this.protocol = 'wss';
         }
@@ -72,7 +72,7 @@ export class xterm {
             console.log("tries:\t", i)
             if (this._socket === undefined || (this._socket && this._socket.readyState === 3)) {
                 try {
-                    this._socket = new WebSocket(`${this.protocol}://${window.location.host}:${this.port}`);
+                    this._socket = new WebSocket(url);
                     this._socket.onmessage = function (event) {
                         // alert(`[message] Data received from server: ${event.data}`);
                         console.log("socket server:", JSON.parse(event.data));
@@ -87,15 +87,16 @@ export class xterm {
                             // event.code is usually 1006 in this case
                             // alert('[close] Connection died');
                             this._term.write(`[close] Connection died, code=${event.code} reason=${event.reason}`);
-                            console.log('Socket is closed. Reconnect will be attempted in 1 second.', event.reason);
+                            console.log(`Socket is closed. Reconnect will be attempted in 1 second.`, event.reason);
                             setTimeout(() => {
-                                this.connect(5,url);
+                                this.connect(retries,url);
                             }, 1000);
 
                         }
 
                     };
                     this._socket.onerror = (err) => {
+                        // @ts-ignore
                         console.error('Socket encountered error: ', err.message, 'Closing socket');
                         this._socket.close();
                     };

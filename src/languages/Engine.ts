@@ -1,17 +1,16 @@
 import type ILanguageService from "./ILanguageService";
-import {SQL} from "./SQL";
-import {supportedLanguagesEnum} from "../global.d";
-import {Python} from "./python";
+import {SQL, Python, Javascript, JavascriptRemote} from "./";
+import {supportedExecutionEnum, supportedLanguagesEnum} from "../global.d";
 
 export class Engine {
     private languages: Record<supportedLanguagesEnum, ILanguageService>
 
-    public async getLanguage(language: supportedLanguagesEnum): Promise<ILanguageService> {
+    public async getLanguage(language: supportedLanguagesEnum,execution:supportedExecutionEnum): Promise<ILanguageService> {
         if (!(language in supportedLanguagesEnum)) {
             throw new Error(`${language} doesn't exist or is not yet supported`)
         }
         if (!(language in this.languages)) {
-            await this.init(language)
+            await this.init(language,execution)
         }
         return this.languages[language];
     }
@@ -21,7 +20,7 @@ export class Engine {
         this.languages = {};
     }
 
-    private async init(language: supportedLanguagesEnum) {
+    private async init(language: supportedLanguagesEnum, execution: supportedExecutionEnum) {
         switch (language) {
             case supportedLanguagesEnum.sql:
                 this.languages["sql"] = new SQL();
@@ -30,6 +29,16 @@ export class Engine {
             case supportedLanguagesEnum.python:
                 this.languages["python"] = new Python();
                 await this.languages["python"].init();
+                break;
+            case supportedLanguagesEnum.javascript:
+                let executor:ILanguageService;
+                if (execution === supportedExecutionEnum.server) {
+                    executor = new JavascriptRemote();
+                } else if (execution === supportedExecutionEnum.client) {
+                    executor = new Javascript();
+                }
+                this.languages["javascript"] = executor;
+                await this.languages["javascript"].init();
                 break;
             default:
                 throw new Error(`${language} not loaded`)
