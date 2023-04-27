@@ -12,6 +12,7 @@
     import PreviewManager from "./../lib/PreviewManager";
     import {PreviewTypes, type ObjectWithKeysOfEnumAsKeys} from "../global.d";
     import Xterm from "./Xterm.svelte";
+    import Terminal from "./Terminal/Terminal.svelte";
 
     let previewFrame: HTMLDivElement;
     let loading = true;
@@ -48,6 +49,7 @@
     export function switchContext(
         context: keyof ObjectWithKeysOfEnumAsKeys
     ): void {
+        terminalActive = false;
         console.log("switch")
         previewManager.switchContext(context)
         selectedIndex = PreviewTypes[context];
@@ -56,6 +58,9 @@
         // console.log("context:", previewManager.context);
         // console.log("parent", parentFrame);
         // console.log("parent", parentFrame.children[0]);
+        if (context === "xterm") {
+            terminalActive = true;
+        }
     }
 
     export const read = (type: PreviewTypes) => {
@@ -84,6 +89,7 @@
         args.cond ? fade(node, args) : scale(node, args);
     // $: console.log(selectedIndex);
     let root;
+    let terminalActive: boolean = true;
 </script>
 
 <div use:accordion={isOpen} class="preview" transition:animate bind:this={root}>
@@ -96,20 +102,19 @@
             <Switch text="AST" on:click={() => switchContext("ast")}/>
             <Switch text="Error" on:click={() => switchContext("error")}/>
             <Switch text="Console" on:click={() => switchContext("console")}/>
-            <!--            <Switch text="xterm" on:click={() => switchContext("xterm")}/>-->
+            <Switch text="Terminal" on:click={() => switchContext("xterm")}/>
         </ContentSwitcher>
-        <div bind:this={previewFrame} class="iframe {id}"/>
-        <div class="console-header" class:active={isXtermOpen} on:click={openXterm}>
-            Terminal
+        <div class:hidden={!terminalActive}>
+            <Terminal/>
         </div>
-        <div class="xterminal-parent" use:accordion={isXtermOpen}>
-<!--            <Xterm bind:this={xtermRef} bind:handlePrompt/>-->
-        </div>
-        <div style="display: grid;grid-auto-flow: column;grid-template-columns: 1fr;">
-            <TextInput on:input={(e)=>promptInput=e.detail} labelText="command prompt"
-                       placeholder="Send to server...."/>
-            <Button on:click={()=>handlePrompt(promptInput)}>send</Button>
-        </div>
+        <div class:hidden={terminalActive} bind:this={previewFrame} class="iframe {id}"></div>
+
+
+        <!--        <div style="display: grid;grid-auto-flow: column;grid-template-columns: 1fr;">-->
+        <!--            <TextInput on:input={(e)=>promptInput=e.detail} labelText="command prompt"-->
+        <!--                       placeholder="Send to server...."/>-->
+        <!--            <Button on:click={()=>handlePrompt(promptInput)}>send</Button>-->
+        <!--        </div>-->
 
     {/if}
 </div>
@@ -120,7 +125,9 @@
         /*border: 10px;*/
         border: var(--cds-background) solid 10px;
     }
-
+    .hidden{
+        display: none;
+    }
     .active {
         background-color: white;
         /*border-color: var(--cds-background-active);*/
@@ -130,25 +137,12 @@
 
     }
 
-    .xterminal-parent {
-        display: block;
-    }
-
-    /*.ast{*/
-    /*    display: block;*/
-    /*    width: -webkit-fill-available;*/
     .iframe {
         display: contents;
         height: min-content;
     }
-
-    /*}*/
-    /*.iframe-body {*/
-    /*    width: 100%;*/
-    /*    display: block;*/
-    /*    background-color: black;*/
-    /*}*/
     .preview {
+        display: block;
         min-height: 150px;
         transition: all 0.2s ease-in;
     }

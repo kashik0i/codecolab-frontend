@@ -1,13 +1,16 @@
 import type ILanguageService from "./ILanguageService";
+import {SocketClient} from "../lib/socket";
 
 export class JavascriptRemote implements ILanguageService {
     private code?: string;
     private params?: Array<any>;
     private readonly serverUrl: string;
+    private socket: SocketClient;
 
     public constructor() {
         this.serverUrl = `http://localhost:3000`
         console.log(this.serverUrl)
+        this.socket = new SocketClient()
     }
 
     async execute(code: string, bindings: Array<any>) {

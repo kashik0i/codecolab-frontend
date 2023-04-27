@@ -30,3 +30,4 @@ export const changelogTree = writable<ChangelogTree>(changelogTreeDemo);
 // ]);
 export const supportedLanguages = writable(Object.values(supportedLanguagesEnum))
 export const supportedExecution = writable(Object.values(supportedExecutionEnum))
+export const accessToken = writable('b8ad326d5f604cadb363eacf02e009fb')

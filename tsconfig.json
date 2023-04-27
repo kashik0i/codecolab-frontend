@@ -14,7 +14,9 @@
     "src/**/*.d.ts",
     "src/**/*.ts",
     "src/**/*.js",
-    "src/**/*.svelte"
+    "src/**/*.svelte",
+    "node_modules/xterm/typings/xterm.d.ts",
+    "node_modules/svelte-spotify-web-playback/types/spotify.d.ts",
   ],
   "references": [
     {
