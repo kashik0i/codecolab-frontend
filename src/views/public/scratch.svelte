@@ -1,7 +1,9 @@
 <script lang="ts">
     import {onMount} from "svelte";
-    import Terminal from  "../../components/Terminal/Terminal.svelte"
+    import Terminal from "../../components/Terminal/Terminal.svelte"
     import CodeBlockList from "../../components/CodeBlock/CodeBlockList.svelte";
+    import Alda from "../../components/Alda/Alda.svelte";
+    import WebCam from "../../components/WebCam/WebCam.svelte";
 
     let container: HTMLDivElement;
 
@@ -14,30 +16,31 @@
 
     let RO: ResizeObserver;
 
-    onMount(()=>{
+    onMount(() => {
         // getNewRandomColor()
-      /*
+        /*
 
-        RO = new ResizeObserver((entries) => {
-            for (let entry of entries) {
-                Terminal.resize();
-            }
-        });
+          RO = new ResizeObserver((entries) => {
+              for (let entry of entries) {
+                  Terminal.resize();
+              }
+          });
 
-        const termElm = document.querySelector<HTMLElement>("div#terminal");
-        RO.observe(termElm);
+          const termElm = document.querySelector<HTMLElement>("div#terminal");
+          RO.observe(termElm);
 
-        () => {
-            RO.unobserve(termElm);
-            RO.disconnect();
-        }*/
+          () => {
+              RO.unobserve(termElm);
+              RO.disconnect();
+          }*/
     });
 </script>
 
 <!-- <Filetree /> -->
 <div class="container" bind:this={container}>
+    <WebCam/>
     <CodeBlockList/>
-
+    <!--    <Alda/>-->
 </div>
 
 <style>

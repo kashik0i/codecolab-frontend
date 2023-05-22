@@ -17,7 +17,7 @@ export class User {
         this._id = id;
     }
 
-    private _id: string;
+    _id: string;
     private _guest: boolean;
 
     public constructor(isGuest: boolean) {

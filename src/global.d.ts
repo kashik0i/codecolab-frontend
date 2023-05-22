@@ -91,7 +91,9 @@ export enum supportedLanguagesEnum {
     json = "json",
     sql = "sql",
     python = "python",
-    svelte = "svelte"
+    svelte = "svelte",
+    php = "php",
+    csharp = "csharp"
 }
 export enum supportedExecutionEnum {
     client = "client",

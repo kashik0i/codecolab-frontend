@@ -1,5 +1,6 @@
 import {writable} from "svelte/store";
 import {
+    phpDemo1,
     typescriptDemo1,
     javascriptDemo1,
     svelteDemo1,
@@ -13,6 +14,7 @@ import {v4 as uuidv4} from "uuid";
 import type {EditorModel} from "../global";
 
 const demoCode: EditorModel[] = [
+    phpDemo1,
     typescriptDemo1,
     javascriptDemo1,
     jsonSettingsDemo1,

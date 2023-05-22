@@ -12,6 +12,7 @@
     import {App, ArrowDown, ArrowUp, BareMetalServer, type CarbonIcon, Cloud} from "carbon-icons-svelte";
     import * as monaco from "monaco-editor";
     // import { AutoTypings, LocalStorageCache } from 'monaco-editor-auto-typings';
+    // import { AutoTypings, LocalStorageCache } from 'monaco-editor-auto-typings';
     import {createEventDispatcher, onMount} from "svelte";
     import {type enumValues, supportedExecutionEnum, supportedLanguagesEnum} from "../../global.d";
 
@@ -63,6 +64,7 @@
 
     onMount(async () => {
         // monaco = await import("monaco-editor");
+        // console.log("monaco languages", monaco.languages.getLanguages().find(lang => lang.id === 'php'))
         editor = monaco.editor.create(container, {
             value: model.code,
             language: model.language,
@@ -72,6 +74,10 @@
             // "semanticHighlighting.enabled"
             //   readOnly: true,
         });
+        // const autoTypings = await AutoTypings.create(editor, {
+        //     sourceCache: new LocalStorageCache(), // Cache loaded sources in localStorage. May be omitted
+        //     // Other options...
+        // });
         changeExecutionLogo(model.execution)
         // Initialize auto typing on monaco editor. Imports will now automatically be typed!
         // const autoTypings = await AutoTypings.create(editor, {

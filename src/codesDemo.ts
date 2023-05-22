@@ -1,5 +1,21 @@
 import {type EditorModel, supportedExecutionEnum, supportedLanguagesEnum} from "./global.d";
 
+export const phpDemo1: EditorModel = {
+    code: [
+        "<?php",
+        "x='hello';",
+        "echo 'Hello $x';",
+        "phpinfo();",
+        "?>"
+    ].join("\n"),
+    language: supportedLanguagesEnum.php,
+    order: 0,
+    id: "",
+    preview: true,
+    render: true,
+    status: "idle",
+    execution: supportedExecutionEnum.server
+};
 export const typescriptDemo1: EditorModel = {
     code: [
         "export const editorContents = import fetch from 'node-fetch';\n",
@@ -22,7 +38,7 @@ export const typescriptDemo1: EditorModel = {
     preview: true,
     render: true,
     status: "idle",
-    execution:supportedExecutionEnum.server
+    execution: supportedExecutionEnum.server
 };
 export const jsonSettingsDemo1: EditorModel = {
     code: `{
@@ -99,7 +115,7 @@ export const jsonSettingsDemo1: EditorModel = {
     preview: false,
     render: false,
     status: "idle",
-    execution:supportedExecutionEnum.client
+    execution: supportedExecutionEnum.client
 };
 export const svelteDemo1: EditorModel = {
     code: [
@@ -133,7 +149,7 @@ export const svelteDemo1: EditorModel = {
     preview: true,
     render: true,
     status: "idle",
-    execution:supportedExecutionEnum.server
+    execution: supportedExecutionEnum.server
 };
 export const javascriptDemo1: EditorModel = {
     code: [
@@ -154,7 +170,7 @@ export const javascriptDemo1: EditorModel = {
     preview: true,
     render: true,
     status: "idle",
-    execution:supportedExecutionEnum.server
+    execution: supportedExecutionEnum.server
 };
 export const htmlDemo1: EditorModel = {
     code: `<html lang="">
@@ -165,7 +181,7 @@ export const htmlDemo1: EditorModel = {
     preview: true,
     render: true,
     status: "idle",
-    execution:supportedExecutionEnum.client
+    execution: supportedExecutionEnum.client
 };
 export const sqlDemo1: EditorModel = {
     code: [
@@ -227,7 +243,7 @@ export const sqlDemo1: EditorModel = {
     preview: true,
     render: true,
     status: "idle",
-    execution:supportedExecutionEnum.client
+    execution: supportedExecutionEnum.client
 };
 export const sqlDemo2: EditorModel = {
     code: "SELECT * FROM cities WHERE pop < 3500000 ORDER BY pop DESC",
@@ -237,7 +253,7 @@ export const sqlDemo2: EditorModel = {
     preview: true,
     render: true,
     status: "idle",
-    execution:supportedExecutionEnum.client
+    execution: supportedExecutionEnum.client
 };
 export const pythonDemo1: EditorModel = {
     code: [
@@ -252,5 +268,5 @@ export const pythonDemo1: EditorModel = {
     preview: true,
     render: true,
     status: "idle",
-    execution:supportedExecutionEnum.client
+    execution: supportedExecutionEnum.client
 };

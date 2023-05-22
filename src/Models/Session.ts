@@ -34,7 +34,7 @@ export class Session {
         return this._user;
     }
 
-    private _user: User;
+    _user: User;
     private _id: string;
     private _notebooks: [{ id: string; name: string }];
     private _localStorageEnabled: boolean;
