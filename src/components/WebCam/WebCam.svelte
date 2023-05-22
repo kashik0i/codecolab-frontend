@@ -134,7 +134,7 @@
 
             //--------------------------------------------------------
             await video.play();
-            // video.muted = true;
+            video.muted = true;
             loading = false;
             toggle = true;
             enablePiP = true;
