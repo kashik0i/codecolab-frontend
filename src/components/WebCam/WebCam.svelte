@@ -118,7 +118,7 @@
             loading = true;
             video.srcObject = await navigator.mediaDevices.getUserMedia({
                 video: {facingMode: "user"},
-                // audio: true
+                audio: true
             });
 
             //--------------------------------------------------------
