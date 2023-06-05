@@ -6,10 +6,15 @@
     import {navigateTo, Router} from 'svelte-router-spa'
     import {routes} from './routes'
     import {onMount} from "svelte";
+    import {session} from "./stores";
 
     let page_id: string = uuidv4()
     onMount(() => {
-        navigateTo('scratch')
+        if($session?._user?.providerUser){
+            navigateTo('home')
+        }else   {
+            navigateTo('login')
+        }
 
     });
 </script>

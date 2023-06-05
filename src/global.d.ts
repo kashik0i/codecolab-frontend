@@ -1,5 +1,6 @@
 /// <reference types="@sveltejs/kit" />
 import type {TreeNode} from "carbon-components-svelte/types/TreeView/TreeView.svelte";
+import Peer from "simple-peer";
 
 export enum PreviewTypes {
     output = 0,

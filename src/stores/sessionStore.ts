@@ -1,4 +1,14 @@
 import {writable} from "svelte/store";
-import {Session} from "../Models/Session";
+import type {SessionManager} from "../components/Session/SessionManager";
+export function createLocalStorageStore<T>(key, initialValue) {
+    const json = localStorage.getItem(key);
+    const startValue = json ? JSON.parse(json) : initialValue;
+    const store = writable<T>(startValue);
 
-export const session = writable<Session>(new Session(true));
+    store.subscribe((value) => {
+        localStorage.setItem(key, JSON.stringify(value));
+    });
+
+    return store;
+}
+export const session = createLocalStorageStore<SessionManager>("session", null);

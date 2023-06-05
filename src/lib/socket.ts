@@ -4,7 +4,7 @@ export class SocketClient {
     private _socket: Socket;
 
     constructor() {
-        this._socket = io('http://localhost:3000',{
+        this._socket = io('http://localhost:3000/events',{
             reconnectionDelay: 1000,
             reconnection: true,
             // reconnectionAttemps: 10,

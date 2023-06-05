@@ -4,6 +4,7 @@
     import CodeBlockList from "../../components/CodeBlock/CodeBlockList.svelte";
     import Alda from "../../components/Alda/Alda.svelte";
     import WebCam from "../../components/WebCam/WebCam.svelte";
+    import WebCamGrid from "../../components/WebCam/WebCamGrid.svelte";
 
     let container: HTMLDivElement;
 
@@ -38,8 +39,8 @@
 
 <!-- <Filetree /> -->
 <div class="container" bind:this={container}>
-    <WebCam/>
-    <CodeBlockList/>
+<!--   <WebCamGrid/>-->
+<!--    <CodeBlockList/>-->
     <!--    <Alda/>-->
 </div>
 
