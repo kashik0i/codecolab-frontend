@@ -46,13 +46,13 @@
                         <p>{JSON.stringify(gist)}</p>
                         <h1>{file.filename}</h1>
                         <p>{file.language}</p>
-                        {#await  gistContentFetcher(file.raw_url)}
-                            <Loading/>
-                        {:then content}
-                            <p>{content}</p>
-                        {:catch error}
-                            <p>An error has occurred: {error.message}</p>
-                        {/await}
+                        <!--{#await  gistContentFetcher(file.raw_url)}-->
+                        <!--    <Loading/>-->
+                        <!--{:then content}-->
+                        <!--    <p>{content}</p>-->
+                        <!--{:catch error}-->
+                        <!--    <p>An error has occurred: {error.message}</p>-->
+                        <!--{/await}-->
                     {/each}
                 </pre>
             {/each}
