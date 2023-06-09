@@ -34,7 +34,6 @@
     })
     const {data: gists, error} = useSWR('https://api.github.com/gists', {fetcher: gistInfoFetcher});
     // const queryResult = useQuery(['gists',token],fetchGists)
-    const g:Gist;
 </script>
 {#if $gists}
     {#await $gists}
