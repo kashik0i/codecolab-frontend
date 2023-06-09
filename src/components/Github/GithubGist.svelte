@@ -6,7 +6,6 @@
     import {session} from "../../stores";
     import {onMount} from "svelte";
     import {Loading} from "carbon-components-svelte";
-    import {UrlParser} from "svelte-router-spa/types/router/url_parser";
 
     $:token = $session?._user?._token
     const gistContentFetcher = async (url: string) => {
