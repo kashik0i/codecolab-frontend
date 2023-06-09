@@ -12,7 +12,7 @@
         const firebaseClient = new FirebaseClient();
         await firebaseClient.logout()
         open = false;
-        navigateTo("/")
+        navigateTo("/scratch")
     };
 
 

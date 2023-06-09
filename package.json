@@ -44,6 +44,7 @@
     "pyodide": "^0.22.1",
     "simple-peer": "^9.11.1",
     "socket.io-client": "^4.6.2",
+    "sswr": "^1.10.0",
     "svelte-grid": "5.1.1",
     "svelte-resize-observer": "^2.0.0",
     "svelte-router-spa": "^6.0.3",

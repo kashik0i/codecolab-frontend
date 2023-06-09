@@ -39,8 +39,8 @@
 
 <!-- <Filetree /> -->
 <div class="container" bind:this={container}>
-<!--   <WebCamGrid/>-->
-<!--    <CodeBlockList/>-->
+    <!--   <WebCamGrid/>-->
+    <CodeBlockList/>
     <!--    <Alda/>-->
 </div>
 
