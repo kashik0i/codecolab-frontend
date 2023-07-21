@@ -1,6 +1,7 @@
 import type ILanguageService from "./ILanguageService";
 import {SQL, Python, Javascript, JavascriptRemote} from "./";
 import {supportedExecutionEnum, supportedLanguagesEnum} from "../global.d";
+import {MermaidLocal} from "./MermaidLocal";
 
 export class Engine {
     private languages: Record<supportedLanguagesEnum, ILanguageService>
@@ -39,6 +40,10 @@ export class Engine {
                 }
                 this.languages["javascript"] = executor;
                 await this.languages["javascript"].init();
+                break;
+            case supportedLanguagesEnum.mermaid:
+                this.languages["mermaid"] = new MermaidLocal();
+                await this.languages["mermaid"].init();
                 break;
             default:
                 throw new Error(`${language} not loaded`)

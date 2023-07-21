@@ -14,7 +14,12 @@
     // import { AutoTypings, LocalStorageCache } from 'monaco-editor-auto-typings';
     // import { AutoTypings, LocalStorageCache } from 'monaco-editor-auto-typings';
     import {createEventDispatcher, onMount} from "svelte";
-    import {type enumValues, supportedExecutionEnum, supportedLanguagesEnum} from "../../global.d";
+    import {
+        type enumValues,
+        type ObjectWithKeysOfEnumAsKeys,
+        supportedExecutionEnum,
+        supportedLanguagesEnum
+    } from "../../global.d";
 
     import type {EditorModel} from "src/global";
     import Preview from "../Preview.svelte";
@@ -22,12 +27,13 @@
 
 
     let executionLogo: CarbonIcon;
-    let previewWrite: (
-            context: enumValues,
-            data: any,
+    let previewWrite:  (
+            context: keyof ObjectWithKeysOfEnumAsKeys,
+            data,
             append: boolean,
-            isSwitch?: boolean
-        ) => void,
+            isSwitch = false,
+            isMermaidDiagram = false
+        ) => Promise<void>,
         switchContext,
         previewRead;
     let executeCell: (e: CustomEvent) => void;
@@ -160,14 +166,14 @@
                         const res = await sqlEngine.execute(model.code, null);
                         console.log(res);
                         // await generate(res);
-                        previewWrite("output", res, false, true);
+                        await previewWrite("output", res, false, true);
 
                         model.status = "success";
                     } catch (error) {
                         console.error(error);
                         console.log(error.message);
 
-                        previewWrite("error", error.message, false, true);
+                        await previewWrite("error", error.message, false, true);
                         // console.log(previewWrite);
                         model.status = "fail";
                     }
@@ -176,18 +182,18 @@
                 case supportedLanguagesEnum.python:
                     try {
                         model.status = "fail";
-                        previewWrite("error", "unsupported language", false, true);
+                        await previewWrite("error", "unsupported language", false, true);
                         return;
                         const pythonEngine = await $languageServiceEngine.getLanguage(supportedLanguagesEnum.python, model.execution);
                         const result = await pythonEngine.execute(model.code, null)
 
                         // const pythonVersion = await pythonEngine.getVersion();
                         // console.log(pythonVersion);
-                        previewWrite("output", result, false, true);
+                        await previewWrite("output", result, false, true);
                         model.status = "success";
                     } catch (error) {
                         console.error(error);
-                        previewWrite("error", error.message, false, true);
+                        await previewWrite("error", error.message, false, true);
                         model.status = "fail";
                     }
 
@@ -207,7 +213,7 @@
                         console.error(error);
                         console.log(error.message);
 
-                        previewWrite("error", error.message, false, true);
+                        await previewWrite("error", error.message, false, true);
                         // console.log(previewWrite);
                         model.status = "fail";
                     }
@@ -222,9 +228,24 @@
                     break;
                 case supportedLanguagesEnum.json:
                     break;
+                case supportedLanguagesEnum.mermaid:
+                    try {
+                        const mermaidEngine = await $languageServiceEngine.getLanguage(supportedLanguagesEnum.mermaid, model.execution);
+                        const result = await mermaidEngine.execute(model.code, null)
+                        await previewWrite("output", result, false, true, true);
+                        model.status = "success";
+                    } catch (error) {
+                        console.error(error);
+                        console.log(error.message);
+
+                        await previewWrite("error", error.message, false, true);
+                        // console.log(previewWrite);
+                        model.status = "fail";
+                    }
+                    break;
                 default:
                     model.status = "fail";
-                    previewWrite("error", "unsupported language", false, true);
+                    await previewWrite("error", "unsupported language", false, true);
                 // alert("unkown language");
             }
             // $codeTree[model.order].status = "success";

@@ -13,7 +13,7 @@
         <ImageLoader src={user.photoURL} ratio="16x9" style="width: 300px"/>
         <p>email: {user.email}</p>
         <p>provider: {user.providerId}</p>
-        <GithubGist/>
+<!--        <GithubGist/>-->
     {/if}
     <!--    <button on:click={() => $session.signOut()}>Sign Out</button>-->
 

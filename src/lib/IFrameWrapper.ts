@@ -21,7 +21,7 @@ export default class IFrameWrapper {
     // const doc = this.element.contentDocument;
     // const node = doc.createElement("div");
     // node.innerText = input;
-    const para=doc.createElement('p');
+    const para=doc.createElement('div');
     para.innerHTML=input;
     this.element.appendChild(para);
   }
@@ -48,4 +48,6 @@ export default class IFrameWrapper {
     // console.log(errorRef.document.querySelector("body"));
     this.element.appendChild(m);
   }
+
+
 }

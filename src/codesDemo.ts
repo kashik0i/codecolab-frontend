@@ -270,3 +270,36 @@ export const pythonDemo1: EditorModel = {
     status: "idle",
     execution: supportedExecutionEnum.client
 };
+
+export const mermaidSequenceDiagramDemo1: EditorModel = {
+    code: [
+        "sequenceDiagram",
+        "    Alice->>John: Hello John, how are you?",
+        "    John-->>Alice: Great!",
+    ].join("\n"),
+    language: supportedLanguagesEnum.mermaid,
+    order: 0,
+    id: "",
+    preview: true,
+    render: true,
+    status: "idle",
+    execution: supportedExecutionEnum.client
+};
+
+export const mermaidFlowchartDemo1: EditorModel = {
+    code: [
+        "graph TD",
+        "    A[Christmas] -->|Get money| B(Go shopping)",
+        "    B --> C{Let me think}",
+        "    C -->|One| D[Laptop]",
+        "    C -->|Two| E[iPhone]",
+        "    C -->|Three| F[fa:fa-car Car]",
+    ].join("\n"),
+    language: supportedLanguagesEnum.mermaid,
+    order: 0,
+    id: "",
+    preview: true,
+    render: true,
+    status: "idle",
+    execution: supportedExecutionEnum.client
+};

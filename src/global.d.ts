@@ -94,7 +94,8 @@ export enum supportedLanguagesEnum {
     python = "python",
     svelte = "svelte",
     php = "php",
-    csharp = "csharp"
+    csharp = "csharp",
+    mermaid = "mermaid",
 }
 export enum supportedExecutionEnum {
     client = "client",

@@ -13,23 +13,24 @@
     import {PreviewTypes, type ObjectWithKeysOfEnumAsKeys} from "../global.d";
     import Xterm from "./Xterm.svelte";
     import Terminal from "./Terminal/Terminal.svelte";
-
+    import mermaid from "mermaid";
     let previewFrame: HTMLDivElement;
     let loading = true;
     let selectedIndex;
     // let parentFrame:HTMLDivElement;
     let previewManager: PreviewManager;
 
-    export function write(
+
+    export async function write(
         context: keyof ObjectWithKeysOfEnumAsKeys,
         data,
         append: boolean,
-        isSwitch = false
-    ) {
+        isSwitch = false,
+        isMermaidDiagram = false
+    ): Promise<void> {
         if (isSwitch) {
             switchContext(context);
         }
-
         console.log(
             `write to ${context} : '${data}'' ${
                 append ? "with" : "without"
@@ -142,7 +143,7 @@
         height: min-content;
     }
     .preview {
-        display: block;
+        display: contents;
         min-height: 150px;
         transition: all 0.2s ease-in;
     }

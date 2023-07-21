@@ -24,9 +24,10 @@ export default class PreviewManager {
             validKeys.map((name) => {
                 const frame = new IFrameWrapper(name, doc.createElement("div"), id);
 
-                frame.element.style.width = "100vw";
-                frame.element.style.height = "40vh";
+                frame.element.style.width = "100%";
+                frame.element.style.height = "200px";
                 frame.element.style.backgroundColor = "blue";
+                frame.element.style.display = "table";
                 return [name, frame];
             })
         );
@@ -71,6 +72,21 @@ export default class PreviewManager {
     }
 
     public write(name: enumValues, content, doc) {
+        // debugger
+        if (typeof content !== "string") {
+            content = JSON.stringify(content)
+        }
+        console.log(`PreviewManager:\twrite to ${name} content: ${content}`);
+        const view = this.getView(name);
+        console.log(view)
+        if (view == undefined) {
+            throw new Error("view is not valid");
+        }
+        // view.para("content");
+        view.write(content, doc);
+    }
+
+    public writeRaw(name: enumValues, content, doc) {
         // debugger
         if (typeof content !== "string") {
             content = JSON.stringify(content)
