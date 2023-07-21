@@ -82,7 +82,6 @@ export interface EditorModel {
     status: "idle" | "pending" | "fail" | "success";
 }
 
-
 export enum supportedLanguagesEnum {
     javascript = "javascript",
     typescript = "typescript",
@@ -96,10 +95,12 @@ export enum supportedLanguagesEnum {
     php = "php",
     csharp = "csharp",
     mermaid = "mermaid",
+    text = "text",
 }
 export enum supportedExecutionEnum {
     client = "client",
     server = "server",
     serverless = "serverless",
+    none = "none",
 }
 // type supportedLanguagesValues = keyof typeof supportedLanguagesEnum;

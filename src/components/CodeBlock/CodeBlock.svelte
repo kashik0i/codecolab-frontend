@@ -12,10 +12,8 @@
     import {App, ArrowDown, ArrowUp, BareMetalServer, type CarbonIcon, Cloud} from "carbon-icons-svelte";
     import * as monaco from "monaco-editor";
     // import { AutoTypings, LocalStorageCache } from 'monaco-editor-auto-typings';
-    // import { AutoTypings, LocalStorageCache } from 'monaco-editor-auto-typings';
     import {createEventDispatcher, onMount} from "svelte";
     import {
-        type enumValues,
         type ObjectWithKeysOfEnumAsKeys,
         supportedExecutionEnum,
         supportedLanguagesEnum
@@ -24,10 +22,11 @@
     import type {EditorModel} from "src/global";
     import Preview from "../Preview.svelte";
     import {JavascriptRemote} from "../../languages";
+    import {ILanguageId, registerCustomLanguage} from "../../Monarch";
 
 
     let executionLogo: CarbonIcon;
-    let previewWrite:  (
+    let previewWrite: (
             context: keyof ObjectWithKeysOfEnumAsKeys,
             data,
             append: boolean,
@@ -71,6 +70,8 @@
     onMount(async () => {
         // monaco = await import("monaco-editor");
         // console.log("monaco languages", monaco.languages.getLanguages().find(lang => lang.id === 'php'))
+        // registerCustomLanguage(ILanguageId.MermaidSequenceDiagram)
+
         editor = monaco.editor.create(container, {
             value: model.code,
             language: model.language,

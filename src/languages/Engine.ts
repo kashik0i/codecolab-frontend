@@ -4,7 +4,7 @@ import {supportedExecutionEnum, supportedLanguagesEnum} from "../global.d";
 import {MermaidLocal} from "./MermaidLocal";
 
 export class Engine {
-    private languages: Record<supportedLanguagesEnum, ILanguageService>
+    private readonly languages: Record<supportedLanguagesEnum, ILanguageService>
 
     public async getLanguage(language: supportedLanguagesEnum,execution:supportedExecutionEnum): Promise<ILanguageService> {
         if (!(language in supportedLanguagesEnum)) {

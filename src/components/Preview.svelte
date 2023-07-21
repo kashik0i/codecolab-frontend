@@ -127,7 +127,7 @@
         border: var(--cds-background) solid 10px;
     }
     .hidden{
-        display: none;
+        display: none !important;
     }
     .active {
         background-color: white;
